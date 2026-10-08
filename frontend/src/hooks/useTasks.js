@@ -9,7 +9,7 @@ export function useTasks(query, status, page, pageSize) {
 
   useEffect(() => {
     setLoading(true);
-
+    setError(null);
     fetchTasks({ query, status, page, pageSize })
       .then((data) => {
         setTasks(data.items);
@@ -17,8 +17,9 @@ export function useTasks(query, status, page, pageSize) {
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
-      });
+      setError(err.message);
+      setLoading(false);
+    });
   }, [query, status, page, pageSize]);
 
   return { tasks, total, loading, error };
